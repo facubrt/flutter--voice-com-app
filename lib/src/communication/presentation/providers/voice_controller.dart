@@ -71,7 +71,7 @@ class VoiceController extends _$VoiceController {
       volume: state.volume,
       rate: state.rate,
       pitch: state.pitch,
-      text: state.text + text,
+      text: text,
     );
 
     state = parameters;

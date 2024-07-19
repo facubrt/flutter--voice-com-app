@@ -16,55 +16,45 @@ class CommunicationPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: appParameters.highContrast ? Colors.black : Colors.white,
       resizeToAvoidBottomInset: false,
-      appBar: MediaQuery.of(context).orientation == Orientation.portrait
-          ? AppBar(
-              title: const Text(
-                HOME_SCREEN_TITLE,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-              backgroundColor: const Color(0xFF003A70),
-              centerTitle: true,
-              elevation: 0,
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      FadeTransitionRoute(
-                        widget: const ConfigPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            )
-          : const PreferredSize(
-              preferredSize: Size.zero,
-              child: SafeArea(
-                child: SizedBox.shrink(),
-              ),
+      appBar: AppBar(
+        title: const Text(
+          HOME_SCREEN_TITLE,
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFF003A70),
+        centerTitle: true,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+              color: Colors.white,
             ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                const FieldTextWidget(),
-                SizedBox(
-                  height:
-                      MediaQuery.of(context).orientation == Orientation.portrait
-                          ? null
-                          : MediaQuery.of(context).size.height * 0.04,
+            onPressed: () {
+              Navigator.push(
+                context,
+                FadeTransitionRoute(
+                  widget: const ConfigPage(),
                 ),
-                const Expanded(child: ButtonsWidget()),
-              ],
-            ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              const FieldTextWidget(),
+              SizedBox(
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? null
+                        : MediaQuery.of(context).size.height * 0.04,
+              ),
+              const Expanded(child: ButtonsWidget()),
+            ],
           ),
         ),
       ),
