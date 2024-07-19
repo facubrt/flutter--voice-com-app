@@ -14,36 +14,18 @@ class FavoritesController extends _$FavoritesController {
       localDataSource: HiveFavoritesLocalDataSource(),
     ),
   );
+  List<Favorite> favorites = [];
   
   @override
-  List<Favorite> build() => [];
+  List<Favorite> build() => service.favorites;
 
-  Future<List<Favorite>> getFavorites() async {
-    final result = await service.getFavorites();
-
-    return result.fold(
-      (l) => throw l, 
-      (r) {
-        state = r;
-        return r;
-      }
-      );
+  Future<bool> addFavorite({required String text}) {
+    state = [...state, Favorite(text: text)];
+    return service.addFavorite(text);
   }
 
-  Future<bool> addFavorite({required String text}) async {
-    final favorite = Favorite(text: text);
-    final result = await service.addFavorite(favorite);
-    return result.fold((l) => throw l, (r) {
-      state = [...state, favorite];
-      return r;
-    });
+  Future<bool> removeFavorite({required int id}) {
+    state.removeAt(id);
+    return service.removeFavorite(id);
   }
-
-  Future<bool> removeFavorite({required int id}) async {
-    final result = await service.removeFavorite(id);
-    return result.fold((l) => throw l, (r) {
-      state.removeAt(id);
-      return r;
-    });
   }
-}

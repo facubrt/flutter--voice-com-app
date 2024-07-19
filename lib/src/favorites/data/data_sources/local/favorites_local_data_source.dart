@@ -6,8 +6,8 @@ import 'package:voicecom/src/favorites/domain/entities/favorite.dart';
 
 abstract class FavoritesLocalDataSource {
   Future<bool> addFavorite(Favorite fav);
-  Future<List<Favorite>> getFavorites();
   Future<bool> removeFavorite(int id);
+  List<Favorite> get getAllFavorites;
 }
 
 class HiveFavoritesLocalDataSource implements FavoritesLocalDataSource {
@@ -20,20 +20,10 @@ class HiveFavoritesLocalDataSource implements FavoritesLocalDataSource {
   Future<bool> addFavorite(Favorite favorite) async {
     try {
       Box<dynamic> box = await Hive.openBox('favorites');
+      debugPrint(favorite.text);
       box.add(FavoriteModel.fromEntity(favorite).toJson());
       return true;
     } catch (e)  {  
-      debugPrint(e.toString());
-      throw LocalFailure(message: e.toString());
-    }
-  }
-
-  @override
-  Future<List<Favorite>> getFavorites() async {
-    try {
-      Box<dynamic> box = await Hive.openBox('favorites');
-      return box.values.map((favorite) => FavoriteModel.fromJson(favorite)).toList();
-    } catch (e) {
       debugPrint(e.toString());
       throw LocalFailure(message: e.toString());
     }
@@ -45,6 +35,17 @@ class HiveFavoritesLocalDataSource implements FavoritesLocalDataSource {
       Box<dynamic> box = await Hive.openBox('favorites');
       box.deleteAt(id);
       return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      throw LocalFailure(message: e.toString());
+    }
+  }
+
+  @override 
+  List<Favorite> get getAllFavorites {
+    try {
+
+      return Hive.box('favorites').values.map((favorite) => FavoriteModel.fromJson(favorite)).toList();
     } catch (e) {
       debugPrint(e.toString());
       throw LocalFailure(message: e.toString());

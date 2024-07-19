@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:voicecom/core/errors/failures.dart';
 import 'package:voicecom/src/favorites/domain/entities/favorite.dart';
 import 'package:voicecom/src/favorites/domain/repositories/favorites_repository.dart';
 
@@ -8,9 +6,21 @@ class FavoritesService {
 
   FavoritesService({required this.repository});
 
-  Future<Either<Failure, List<Favorite>>> getFavorites() => repository.getFavorites();
+  List<Favorite> get favorites {
+    final result = repository.getAllFavorites;
+    return result.fold((l) => throw l, (r) => r);
+  }
 
-  Future<Either<Failure, bool>> addFavorite(Favorite favorite) => repository.addFavorite(favorite);
+  Future<bool> addFavorite(String text) async {
+    final favorite = Favorite(text: text);
+    final result = await repository.addFavorite(favorite);
+    return result.fold((l) => throw l, (r) => r
+      
+    );
+  }
 
-  Future<Either<Failure, bool>> removeFavorite(int id) => repository.removeFavorite(id);
+  Future<bool> removeFavorite(int id)  async {
+    final result = await repository.removeFavorite(id);
+    return result.fold((l) => throw l, (r) => r);
+}
 }

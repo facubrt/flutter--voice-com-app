@@ -20,17 +20,6 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<Either<Failure, List<Favorite>>> getFavorites() async {
-    try {
-
-      final List<Favorite> favorites = await localDataSource.getFavorites();
-      return Right(favorites);
-    } on LocalFailure {
-      return Left(LocalFailure(message: 'Failed to get favorites'));
-    }
-    }
-
-  @override
   Future<Either<Failure, bool>> removeFavorite(int id) async {
     try {
       final bool result = await localDataSource.removeFavorite(id);
@@ -38,6 +27,16 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     } on LocalFailure {
       return Left(LocalFailure(message: 'Failed to get favorites'));
     }
+    }
+
+    @override  
+    Either<Failure, List<Favorite>> get getAllFavorites {
+      try {
+        final List<Favorite> favorites = localDataSource.getAllFavorites;
+        return Right(favorites);
+      } on LocalFailure {
+        return Left(LocalFailure(message: 'Failed to get favorites'));
+      }
     }
   
 }
